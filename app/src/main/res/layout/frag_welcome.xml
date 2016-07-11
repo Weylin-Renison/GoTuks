@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark">
+
+    <TextView
+        android:id="@+id/txtvFWHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textColor="@color/FWHeading"
+        android:text="@string/txtvFWHeading"/>
+
+    <ImageView
+        android:id="@+id/imgvFWLogo"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
+        android:layout_below="@id/txtvFWHeading"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_tuks"/>
+
+    <TextView
+        android:id="@+id/txtvFWParagraphHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgvFWLogo"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/FWParagraph"
+        android:text="@string/txtvFWParagraphHeading"/>
+
+    <TextView
+        android:id="@+id/txtvFWParagraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtvFWParagraphHeading"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/FWParagraph"
+        android:text="@string/txtvFWParagraph"/>
+
+    <Button
+        android:id="@+id/btnFWCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="40dp"
+        android:drawableRight="@drawable/abc_btn_check_to_on_mtrl_000"
+        android:drawablePadding="-80dp"
+        android:background="@color/FWBtnBg"
+        android:textColor="@color/FWBtnText"
+        android:textSize="14sp"
+        android:text="@string/btnFWCreateAccount"/>
+
+    <Button
+        android:id="@+id/btnFWLoginIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnFWCreateAccount"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="40dp"
+        android:drawableRight="@drawable/abc_btn_check_to_on_mtrl_000"
+        android:background="@color/FWBtnBg"
+        android:drawablePadding="-80dp"
+        android:textColor="@color/FWBtnText"
+        android:textSize="14sp"
+        android:text="@string/btnFWLogin"/>
+
+</RelativeLayout>

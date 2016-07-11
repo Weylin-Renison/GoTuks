@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">GoTuks</string>
     <string name="banner_ad_unit_id">/112035882/GoMetroTuks</string>
+
+    <!--Fragment Welcome-->
+    <string name="txtvFWHeading">GoTuks</string>
+    <string name="txtvFWParagraphHeading">Welcome!</string>
+    <string name="txtvFWParagraph">Start viewing real-time information on bus locations</string>
+    <string name="btnFWLogin">LOG IN</string>
+    <string name="btnFWCreateAccount">CREATE ACCOUNT</string>
+
 </resources>
