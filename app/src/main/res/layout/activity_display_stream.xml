@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mapbox.mapboxsdk.views.MapView
+        android:id="@+id/mvADSmap"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        mapbox:mapid="wprenison.nbmehmgo"
+        mapbox:accessToken="sk.eyJ1Ijoid3ByZW5pc29uIiwiYSI6ImVkZGUyMzdlYWJmMTYxZWNlOWE3MGI3ZGM3ZTc4NWI5In0.I68vxId1DHnntpguAwK8Tg"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayADSBusKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/imgvADSEmptyBus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_bus_g"/>
+
+        <TextView
+            android:id="@+id/txtvADSEmptyBus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvADSEmptyBus"
+            android:layout_centerVertical="true"
+            android:textColor="@color/material_blue_grey_950"
+            android:text="Empty Bus"/>
+
+        <ImageView
+            android:id="@+id/imgvADSHeavyTraffic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/txtvADSEmptyBus"
+            android:src="@drawable/ic_bus_y"/>
+
+        <TextView
+            android:id="@+id/txtvADSHeavyTraffic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvADSHeavyTraffic"
+            android:textColor="@color/material_blue_grey_950"
+            android:text="Heavy Traffic"/>
+
+        <ImageView
+            android:id="@+id/imgvADSBusFull"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/txtvADSHeavyTraffic"
+            android:src="@drawable/ic_bus_r"/>
+
+        <TextView
+            android:id="@+id/txtvADSBusFull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvADSBusFull"
+            android:textColor="@color/material_blue_grey_950"
+            android:text="Bus Full"/>
+
+    </RelativeLayout>
+
+    <com.google.android.gms.ads.doubleclick.PublisherAdView
+        android:id="@+id/publisherAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.doubleclick.PublisherAdView>
+
+
+</RelativeLayout>

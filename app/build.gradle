@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'GoMetroAdmin'
+            keyPassword 'admin@gometro.co.za'
+            storeFile file('/Users/wprenison/Desktop/AndroidProjects/GoMetroAndroidStudioKeyStore.jks')
+            storePassword 'N@p0leon'
+        }
+
+        compileSdkVersion 23
+        buildToolsVersion "24"
+
+        defaultConfig {
+            applicationId "com.gometro.gometroliveup"
+            minSdkVersion 15
+            targetSdkVersion 22
+            versionCode 2
+            versionName "1.0.1"
+            signingConfig signingConfigs.config
+        }
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+                signingConfig signingConfigs.config
+            }
+            debug {
+                signingConfig signingConfigs.config
+            }
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile 'com.android.support:appcompat-v7:22.2.1'
+        compile 'com.google.protobuf:protobuf-java:2.6.1'
+        compile 'com.loopj.android:android-async-http:1.4.9'
+        compile 'com.google.android.gms:play-services-ads:8.3.0'
+        compile('com.mapbox.mapboxsdk:mapbox-android-sdk:0.7.4@aar') {
+            transitive = true
+        }
+    }
+}
