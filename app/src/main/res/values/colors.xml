@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Fragment Welcome-->
     <color name="FWHeading">#DEF2F2F2</color>
     <color name="FWParagraph">#F2F2F2</color>
     <color name="FWBtnBg">#1AFFFFFF</color>
+    <color name="FWBtnBgPressed">#0DFFFFFF</color>
     <color name="FWBtnText">#DEF2F2F2</color>
+
+    <!--Fragment Sign In-->
+    <color name="FSHeading">#DEF2F2F2</color>
+    <color name="FSFadedWhite">#DEF2F2F2</color>
+    <color name="FSBrightWhite">#F2F2F2</color>
+    <color name="FSBtnBg">#8000bcd4</color>
+    <color name="FSBtnBgPressed">#8000A3BB</color>
+    <color name="testBg">#0300bcd4</color>
+
+    <!--Fragment Create Account-->
+    <color name="FCAHeading">#DEF2F2F2</color>
+    <color name="FCAFadedWhite">#DEF2F2F2</color>
+    <color name="FCABrightWhite">#F2F2F2</color>
+    <color name="FCABtnBg">#8000bcd4</color>
+    <color name="FCABtnBgPressed">#8000A3BB</color>
+    <color name="FCAtestBg">#0300bcd4</color>
+
 </resources>

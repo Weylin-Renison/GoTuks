@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/testBg">
+
+    <TextView
+        android:id="@+id/txtvFSSignin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="42dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/FSHeading"
+        android:text="@string/txtvFSHeading"/>
+
+    <ImageView
+        android:id="@+id/imgvFSLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/txtvFSSignin"
+        android:src="@drawable/ic_tuks_150"/>
+
+    <!--Building from bottom up from here-->
+    <LinearLayout
+        android:id="@+id/linLayFSCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.35"
+            android:gravity="right"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:textSize="12sp"
+            android:textColor="@color/FSFadedWhite"
+            android:text="@string/txtvFSDescCreateAccount" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/FSBrightWhite"
+            android:text="@string/txtvFSCreateAccount"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnFSSignin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linLayFSCreateAccount"
+        android:layout_marginTop="40dp"
+        android:padding="20dp"
+        android:background="@drawable/selector_btn_bg_turq"
+        android:textSize="20sp"
+        android:textColor="@color/FSBrightWhite"
+        android:text="@string/btnFSSignin"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayFSStaySignedIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnFSSignin"
+        android:paddingTop="12dp"
+        android:paddingBottom="10dp">
+
+        <CheckBox
+            android:id="@+id/cbFSStaySignedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:checked="true"
+            android:button="@drawable/selector_checkbox_circle"
+            android:text="@string/cbFSStaySingedIn"
+            android:textColor="@color/FSBrightWhite"
+            android:textSize="14sp"
+            android:paddingLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/txtvFSForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/FSFadedWhite"
+            android:textSize="14sp"
+            android:text="@string/txtvFSForgotPassword"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vFSDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/relLayFSStaySignedIn"
+        android:background="@drawable/gradient_center_opacity_white"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayFSPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vFSDivider2"
+        android:paddingTop="12dp"
+        android:paddingBottom="5dp">
+
+        <ImageView
+            android:id="@+id/imgvFSPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_lock_white"/>
+
+        <TextView
+            android:id="@+id/txtvFSDescPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvFSPassword"
+            android:layout_marginLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/FSBrightWhite"
+            android:text="@string/txtvFSDescPassword"/>
+
+        <EditText
+            android:id="@+id/etxtFSPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtvFSDescPassword"
+            android:layout_toRightOf="@id/imgvFSPassword"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:textColor="@color/FSBrightWhite"
+            android:inputType="textPassword"
+            android:textColorHint="@color/FSFadedWhite"
+            android:hint="@string/etxtFSHintPassword"/>
+
+        <CheckBox
+            android:id="@+id/cbFSPasswordVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/txtvFSDescPassword"
+            android:layout_alignParentRight="true"
+            android:button="@drawable/selector_checkbox_eye"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vFSDivider1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/relLayFSPassword"
+        android:background="@drawable/gradient_center_opacity_white"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:layout_above="@id/relLayFSPassword">
+
+        <ImageView
+            android:id="@+id/imgvFSEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_email_white"/>
+
+        <TextView
+            android:id="@+id/txtvFSDescEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvFSEmail"
+            android:layout_marginLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/FSBrightWhite"
+            android:text="@string/txtvFSDescEmail"/>
+
+        <EditText
+            android:id="@+id/etxtFSEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtvFSDescEmail"
+            android:layout_toRightOf="@id/imgvFSEmail"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/FSBrightWhite"
+            android:textColorHint="@color/FSFadedWhite"
+            android:hint="@string/etxtFSHintEmail"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

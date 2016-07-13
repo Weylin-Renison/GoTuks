@@ -1,19 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="24.0.0"
-        sha1="f40674d16602500b8e3adb499e140163a558c6db">
-        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_d13a5bf0f69148275d5145c40118c08b59ac922e/classes.dex" />
-    </item>
-    <item
-        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/pl.droidsonroids.gif/android-gif-drawable/1.1.17/jars/classes.jar"
-        jumboMode="true"
-        revision="24.0.0"
-        sha1="7f8c6fd043a9c060badf3fa9b77e51c422af0a8b">
-        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/transforms/dex/debug/folders/1000/10/pl.droidsonroids.gif-android-gif-drawable-1.1.17_977702d04961cf969c7b5b6b70c9db6764890210/classes.dex" />
-    </item>
-
-</items>
+<items version="2" />

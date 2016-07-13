@@ -5,8 +5,34 @@
     <!--Fragment Welcome-->
     <string name="txtvFWHeading">GoTuks</string>
     <string name="txtvFWParagraphHeading">Welcome!</string>
-    <string name="txtvFWParagraph">Start viewing real-time information on bus locations</string>
-    <string name="btnFWLogin">LOG IN</string>
+    <string name="txtvFWParagraph">Start viewing real-time \n information on bus locations</string>
+    <string name="btnFWLogin">SIGN IN</string>
     <string name="btnFWCreateAccount">CREATE ACCOUNT</string>
+
+    <!--Fragment Sign In-->
+    <string name="txtvFSHeading">SIGN IN</string>
+    <string name="txtvFSDescCreateAccount">DONT\'T HAVE AN ACCOUNT?</string>
+    <string name="txtvFSCreateAccount"><u>CREATE ACCOUNT</u></string>
+    <string name="btnFSSignin">SIGN IN</string>
+    <string name="cbFSStaySingedIn">Stay Signed In</string>
+    <string name="txtvFSForgotPassword"><u>Forgot Password</u></string>
+    <string name="txtvFSDescPassword"><b>PASSWORD</b></string>
+    <string name="etxtFSHintPassword">Enter Password</string>
+    <string name="txtvFSDescEmail"><b>EMAIL ADDRESS</b></string>
+    <string name="etxtFSHintEmail">Enter Email Address</string>
+
+    <!--Fragment Create Account-->
+    <string name="txtvFCAHeading">CREATE ACCOUNT</string>
+    <string name="btnFCASignup">SIGN UP</string>
+    <string name="txtvFCADescPassword"><b>PASSWORD</b></string>
+    <string name="etxtFCAHintPassword">Enter Password</string>
+    <string name="txtvFCADescEmail"><b>STUDENT EMAIL ADDRESS</b></string>
+    <string name="etxtFCAHintEmail">Enter Student Email Address</string>
+    <string name="txtvFCADescPhone">PHONE NUMBER</string>
+    <string name="etxtFCAHintPhone">Enter Phone Number</string>
+    <string name="txtvFCADescFullName">FULL NAME</string>
+    <string name="etxtFCAHintFullName">Enter Full Name</string>
+    <string name="txtvFSDescSignIn">ALREADY HAVE AN ACCOUNT?</string>
+    <string name="txtvFCASignIn">SIGN IN</string>
 
 </resources>

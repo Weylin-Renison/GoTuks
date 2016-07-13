@@ -18,13 +18,38 @@ public class GoMetroLiveUPApplication extends Application
     {
         super.onCreate();
 
-        setupServerSettings();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        setupServerSettings(sharedPrefs);
+        runOnNewVersion(sharedPrefs);
+
+        toggelCachedEmail(sharedPrefs, false);
     }
 
-    private void setupServerSettings()
+    private void setupServerSettings(SharedPreferences sharedPrefs)
     {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefs.edit().putString("SERVER_ADDRESS", SERVER_ADDRESS).commit();
         sharedPrefs.edit().putString("SERVER_API_DOWNSTREAM", SERVER_API_DOWNSTREAM).commit();
+    }
+
+    private void runOnNewVersion(SharedPreferences sharedPrefs)
+    {
+        int lastVersionRun = sharedPrefs.getInt("lastVersionRun", 0);
+
+        if(lastVersionRun < BuildConfig.VERSION_CODE)
+        {
+            //Run any new update code
+        }
+    }
+
+    //Toggels weither an email is cached or not for testing purpouses
+    private void toggelCachedEmail(SharedPreferences sharedPerfs, boolean cached)
+    {
+        String email = "wprenison@tuks.ac.za";
+
+        if(cached)
+            sharedPerfs.edit().putString("cachedEmail", email).commit();
+        else
+            sharedPerfs.edit().remove("cachedEmail").commit();
     }
 }

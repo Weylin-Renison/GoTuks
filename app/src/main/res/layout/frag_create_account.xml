@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blurred">
+
+    <TextView
+        android:id="@+id/txtvFCAHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="42dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/FCAHeading"
+        android:text="@string/txtvFCAHeading"/>
+
+    <ImageView
+        android:id="@+id/imgvFCALogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/txtvFCAHeading"
+        android:src="@drawable/ic_tuks_150"/>
+
+    <!--Building from bottom up from here-->
+    <LinearLayout
+        android:id="@+id/linLayFCASignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.35"
+            android:gravity="right"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:textSize="12sp"
+            android:textColor="@color/FSFadedWhite"
+            android:text="@string/txtvFSDescSignIn" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/FSBrightWhite"
+            android:text="@string/txtvFCASignIn"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnFCASignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linLayFCASignIn"
+        android:layout_marginTop="40dp"
+        android:padding="20dp"
+        android:background="@drawable/selector_btn_bg_turq"
+        android:textSize="20sp"
+        android:textColor="@color/FSBrightWhite"
+        android:text="@string/btnFCASignup"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayFCAPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnFCASignUp"
+        android:paddingTop="12dp"
+        android:paddingBottom="5dp">
+
+        <ImageView
+            android:id="@+id/imgvFCAPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_lock_white"/>
+
+        <TextView
+            android:id="@+id/txtvFCADescPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvFCAPassword"
+            android:layout_marginLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/FCABrightWhite"
+            android:text="@string/txtvFCADescPassword"/>
+
+        <EditText
+            android:id="@+id/etxtFCAPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtvFCADescPassword"
+            android:layout_toRightOf="@id/imgvFCAPassword"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:textColor="@color/FCABrightWhite"
+            android:inputType="textPassword"
+            android:textColorHint="@color/FCAFadedWhite"
+            android:hint="@string/etxtFCAHintPassword"/>
+
+        <CheckBox
+            android:id="@+id/cbFCAPasswordVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/txtvFCADescPassword"
+            android:layout_alignParentRight="true"
+            android:button="@drawable/selector_checkbox_eye"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vFCADivider1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/relLayFCAPassword"
+        android:background="@drawable/gradient_center_opacity_white"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayFCAEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:layout_above="@id/vFCADivider1">
+
+        <ImageView
+            android:id="@+id/imgvFCAEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_email_white"/>
+
+        <TextView
+            android:id="@+id/txtvFCADescEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvFCAEmail"
+            android:layout_marginLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/FCABrightWhite"
+            android:text="@string/txtvFCADescEmail"/>
+
+        <EditText
+            android:id="@+id/etxtFSEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtvFCADescEmail"
+            android:layout_toRightOf="@id/imgvFCAEmail"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/FCABrightWhite"
+            android:textColorHint="@color/FCAFadedWhite"
+            android:hint="@string/etxtFCAHintEmail"/>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vFCADivider2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/relLayFCAEmail"
+        android:background="@drawable/gradient_center_opacity_white"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayFCAPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:layout_above="@id/vFCADivider2">
+
+        <ImageView
+            android:id="@+id/imgvFCAPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_phone"/>
+
+        <TextView
+            android:id="@+id/txtvFCADescPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvFCAPhone"
+            android:layout_marginLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/FCABrightWhite"
+            android:text="@string/txtvFCADescPhone"/>
+
+        <EditText
+            android:id="@+id/etxtFCAPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtvFCADescPhone"
+            android:layout_toRightOf="@id/imgvFCAPhone"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/FCABrightWhite"
+            android:textColorHint="@color/FCAFadedWhite"
+            android:hint="@string/etxtFCAHintPhone"/>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vFCADivider3"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/relLayFCAPhone"
+        android:background="@drawable/gradient_center_opacity_white"/>
+
+
+    <RelativeLayout
+        android:id="@+id/relLayFCAFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:layout_above="@id/vFCADivider3">
+
+        <ImageView
+            android:id="@+id/imgvFCAFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_profile"/>
+
+        <TextView
+            android:id="@+id/txtvFCADescFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvFCAFullName"
+            android:layout_marginLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/FCABrightWhite"
+            android:text="@string/txtvFCADescFullName"/>
+
+        <EditText
+            android:id="@+id/etxtFCAFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtvFCADescFullName"
+            android:layout_toRightOf="@id/imgvFCAFullName"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/FCABrightWhite"
+            android:textColorHint="@color/FCAFadedWhite"
+            android:hint="@string/etxtFCAHintFullName"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
