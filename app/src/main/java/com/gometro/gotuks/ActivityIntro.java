@@ -1,5 +1,6 @@
 package com.gometro.gotuks;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import android.widget.ViewSwitcher;
 /**
  * Created by wprenison on 2016/07/11.
  */
-public class ActivityIntro extends AppCompatActivity
+public class ActivityIntro extends AppCompatActivity implements InterfaceIntro
 {
     //Views
     FrameLayout flayContent;
@@ -27,6 +28,9 @@ public class ActivityIntro extends AppCompatActivity
     FragmentManager fragMang;
     FragWelcome fragWelcome;
     FragSignin fragSignin;
+    FragCreateAccount fragCreateAccount;
+
+    boolean forgotPasswprdVissible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -118,21 +122,107 @@ public class ActivityIntro extends AppCompatActivity
         vsBg.showNext();
 
         //Transition to sign in screen from welcome screen
-        FragCreateAccount fragCreateAccount = new FragCreateAccount();
+        fragCreateAccount = new FragCreateAccount();
         FragmentTransaction fragTrans = fragMang.beginTransaction();
         fragTrans
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .remove(fragWelcome)
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .add(R.id.flayAIContent, fragCreateAccount)
-                .addToBackStack("ToCreateAccountScreen")
                 .commit();
     }
 
     @Override
     public void onBackPressed()
     {
-        vsBg.showPrevious();
-        super.onBackPressed();
+        //Check if signin screen is visible
+        if(fragSignin != null && fragSignin.isVisible())
+        {
+            //Check button text if it is forgot password just reverse the animation and control changes otherwise pop back stack
+            if(forgotPasswprdVissible)
+            {
+                fragSignin.animateForgotPassword(false);
+                forgotPasswprdVissible = false;
+            }
+            else
+            {
+                vsBg.showPrevious();
+                navSigninToWelcomeScreen();
+            }
+        }
+        else if(fragCreateAccount != null && fragCreateAccount.isVisible())   //Create Account Screen
+        {
+            vsBg.showPrevious();
+            navCreateAccountToWelcomeScreen();
+        }
+        else
+            super.onBackPressed();
+
+    }
+
+    @Override
+    public void navSigninToCreateAccount()
+    {
+        fragCreateAccount = new FragCreateAccount();
+
+        //Transition to sign in screen from welcome screen
+        FragmentTransaction fragTrans = fragMang.beginTransaction();
+        fragTrans
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .remove(fragSignin)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .add(R.id.flayAIContent, fragCreateAccount).commit();
+    }
+
+    @Override
+    public void navSigninToWelcomeScreen()
+    {
+
+        fragWelcome = new FragWelcome();
+
+        //Transition to sign in screen from welcome screen
+        FragmentTransaction fragTrans = fragMang.beginTransaction();
+        fragTrans
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                .remove(fragSignin)
+                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_left)
+                .add(R.id.flayAIContent, fragWelcome).commit();
+    }
+
+    @Override
+    public void navCreateAccountToSignin()
+    {
+        fragSignin = new FragSignin();
+
+        //Transition to sign in screen from welcome screen
+        FragmentTransaction fragTrans = fragMang.beginTransaction();
+        fragTrans
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .remove(fragCreateAccount)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .add(R.id.flayAIContent, fragSignin).commit();
+    }
+
+    @Override
+    public void navCreateAccountToWelcomeScreen()
+    {
+
+        fragWelcome = new FragWelcome();
+
+        //Transition to sign in screen from welcome screen
+        FragmentTransaction fragTrans = fragMang.beginTransaction();
+        fragTrans
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right)
+                .remove(fragCreateAccount)
+                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_left)
+                .add(R.id.flayAIContent, fragWelcome).commit();
+    }
+
+    @Override
+    public void navMainActivity()
+    {
+        Intent intent = new Intent(this, ActivityDisplayStream.class);
+        startActivity(intent);
+        finish();
     }
 }

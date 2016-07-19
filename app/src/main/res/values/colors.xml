@@ -10,10 +10,11 @@
     <!--Fragment Sign In-->
     <color name="FSHeading">#DEF2F2F2</color>
     <color name="FSFadedWhite">#DEF2F2F2</color>
+    <color name="FS50FadedWhite">#80F2F2F2</color>
     <color name="FSBrightWhite">#F2F2F2</color>
     <color name="FSBtnBg">#8000bcd4</color>
     <color name="FSBtnBgPressed">#8000A3BB</color>
-    <color name="testBg">#0300bcd4</color>
+    <color name="FStransBg">#0300bcd4</color>
 
     <!--Fragment Create Account-->
     <color name="FCAHeading">#DEF2F2F2</color>
@@ -22,5 +23,6 @@
     <color name="FCABtnBg">#8000bcd4</color>
     <color name="FCABtnBgPressed">#8000A3BB</color>
     <color name="FCAtestBg">#0300bcd4</color>
+    <color name="FCAtransBg">#0300bcd4</color>
 
 </resources>

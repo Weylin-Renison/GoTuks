@@ -11,9 +11,12 @@
 
     <!--Fragment Sign In-->
     <string name="txtvFSHeading">SIGN IN</string>
+    <string name="txtvFSForgotPasswordHeading">FORGOT PASSWORD</string>
+    <string name="txtvFSDescForgotPassword">Enter the email address that you signed\nup with and we\'ll send you a link to\nchange your password.</string>
     <string name="txtvFSDescCreateAccount">DONT\'T HAVE AN ACCOUNT?</string>
     <string name="txtvFSCreateAccount"><u>CREATE ACCOUNT</u></string>
     <string name="btnFSSignin">SIGN IN</string>
+    <string name="btnFSResetPassword">RESET PASSWORD</string>
     <string name="cbFSStaySingedIn">Stay Signed In</string>
     <string name="txtvFSForgotPassword"><u>Forgot Password</u></string>
     <string name="txtvFSDescPassword"><b>PASSWORD</b></string>
@@ -33,6 +36,6 @@
     <string name="txtvFCADescFullName">FULL NAME</string>
     <string name="etxtFCAHintFullName">Enter Full Name</string>
     <string name="txtvFSDescSignIn">ALREADY HAVE AN ACCOUNT?</string>
-    <string name="txtvFCASignIn">SIGN IN</string>
+    <string name="txtvFCASignIn"><u>SIGN IN</u></string>
 
 </resources>

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_blurred">
+    android:background="@color/FCAtestBg">
 
     <TextView
         android:id="@+id/txtvFCAHeading"
@@ -46,14 +46,16 @@
             android:text="@string/txtvFSDescSignIn" />
 
         <TextView
+            android:id="@+id/txtvFCASignIn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:textSize="12sp"
-            android:textColor="@color/FSBrightWhite"
+            android:textColor="@color/selector_bright_to_faded_white"
             android:text="@string/txtvFCASignIn"/>
 
     </LinearLayout>
@@ -102,6 +104,8 @@
             android:id="@+id/etxtFCAPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_below="@+id/txtvFCADescPassword"
             android:layout_toRightOf="@id/imgvFCAPassword"
             android:layout_marginLeft="15dp"
@@ -110,6 +114,8 @@
             android:textColor="@color/FCABrightWhite"
             android:inputType="textPassword"
             android:textColorHint="@color/FCAFadedWhite"
+            android:background="@null"
+            android:fontFamily="sans-serif"
             android:hint="@string/etxtFCAHintPassword"/>
 
         <CheckBox
@@ -160,9 +166,11 @@
             android:text="@string/txtvFCADescEmail"/>
 
         <EditText
-            android:id="@+id/etxtFSEmail"
+            android:id="@+id/etxtFCAEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_below="@+id/txtvFCADescEmail"
             android:layout_toRightOf="@id/imgvFCAEmail"
             android:layout_marginLeft="15dp"
@@ -171,6 +179,7 @@
             android:inputType="textEmailAddress"
             android:textColor="@color/FCABrightWhite"
             android:textColorHint="@color/FCAFadedWhite"
+            android:background="@null"
             android:hint="@string/etxtFCAHintEmail"/>
 
 
@@ -209,18 +218,23 @@
             android:layout_marginLeft="15dp"
             android:textSize="12sp"
             android:textColor="@color/FCABrightWhite"
+            android:maxEms="10"
             android:text="@string/txtvFCADescPhone"/>
 
         <EditText
             android:id="@+id/etxtFCAPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_below="@+id/txtvFCADescPhone"
             android:layout_toRightOf="@id/imgvFCAPhone"
             android:layout_marginLeft="15dp"
             android:paddingLeft="0dp"
             android:textSize="14sp"
-            android:inputType="textEmailAddress"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:background="@null"
             android:textColor="@color/FCABrightWhite"
             android:textColorHint="@color/FCAFadedWhite"
             android:hint="@string/etxtFCAHintPhone"/>
@@ -268,12 +282,15 @@
             android:id="@+id/etxtFCAFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@null"
             android:layout_below="@+id/txtvFCADescFullName"
             android:layout_toRightOf="@id/imgvFCAFullName"
             android:layout_marginLeft="15dp"
             android:paddingLeft="0dp"
             android:textSize="14sp"
-            android:inputType="textEmailAddress"
+            android:inputType="textPersonName"
             android:textColor="@color/FCABrightWhite"
             android:textColorHint="@color/FCAFadedWhite"
             android:hint="@string/etxtFCAHintFullName"/>
