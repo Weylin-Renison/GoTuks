@@ -72,6 +72,18 @@
         android:textColor="@color/FSBrightWhite"
         android:text="@string/btnFCASignup"/>
 
+    <ProgressBar
+        android:id="@+id/pgFCAProgressCircle"
+        android:indeterminate="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="-60dp"
+        android:layout_below="@id/btnFCASignUp"
+        android:indeterminateDrawable="@drawable/progress_circle"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:visibility="gone"/>
+
     <RelativeLayout
         android:id="@+id/relLayFCAPassword"
         android:layout_width="match_parent"

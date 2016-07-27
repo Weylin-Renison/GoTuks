@@ -25,4 +25,12 @@
     <color name="FCAtestBg">#0300bcd4</color>
     <color name="FCAtransBg">#0300bcd4</color>
 
+    <!--Nav Bar-->
+    <color name="NavBarBlue">#009C8A</color>
+    <color name="NavBarGrey">#A6A6A6</color>
+
+    <!--Fragment Profile-->
+    <color name="FPBtnBg">#F5FAFA</color>
+    <color name="FPBtnBgPressed">#D4DADA</color>
+
 </resources>

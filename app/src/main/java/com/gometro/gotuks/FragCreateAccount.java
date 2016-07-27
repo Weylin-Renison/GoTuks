@@ -1,7 +1,9 @@
 package com.gometro.gotuks;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.method.PasswordTransformationMethod;
@@ -12,11 +14,27 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by wprenison on 2016/07/13.
@@ -35,6 +53,7 @@ public class FragCreateAccount extends Fragment
     CheckBox cbPasswordVis;
     Button btnSignUp;
     TextView txtvSignIn;
+    ProgressBar pbProgressCircle;
 
     //vars
     ActivityIntro activity;
@@ -63,6 +82,7 @@ public class FragCreateAccount extends Fragment
         cbPasswordVis = (CheckBox) constructedView.findViewById(R.id.cbFCAPasswordVisibility);
         btnSignUp = (Button) constructedView.findViewById(R.id.btnFCASignUp);
         txtvSignIn = (TextView) constructedView.findViewById(R.id.txtvFCASignIn);
+        pbProgressCircle = (ProgressBar) constructedView.findViewById(R.id.pgFCAProgressCircle);
 
         return constructedView;
     }
@@ -151,11 +171,89 @@ public class FragCreateAccount extends Fragment
                 if(valid)
                 {
                     //Create user
-                    Toast.makeText(activity, "Create User", Toast.LENGTH_LONG).show();
+                    //Get url
+                    SharedPreferences prefMang = PreferenceManager.getDefaultSharedPreferences(activity);
+                    String SERVER_ADDRESS = prefMang.getString("SERVER_ADDRESS", null);
+                    String SERVER_API_CREATE_ACCOUNT = prefMang.getString("SERVER_API_CREATE_ACCOUNT", null);
+                    String SERVER_SECRET_KEY = prefMang.getString("SERVER_SECRET_KEY", null);
+                    String SERVER_API_ORG_CODE = prefMang.getString("SERVER_API_ORG_CODE", null);
+
+
+                    String cryptoPassword = null;
+                    try
+                    {
+                        cryptoPassword = hmacSha1(password, SERVER_SECRET_KEY);
+                    } catch(UnsupportedEncodingException e)
+                    {
+                        e.printStackTrace();
+                    } catch(NoSuchAlgorithmException e)
+                    {
+                        e.printStackTrace();
+                    } catch(InvalidKeyException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    //Request password reset
+                    RequestParams params = new RequestParams();
+                    params.put("fullName", fullName);
+                    params.put("phone", phone);
+                    params.put("email", email);
+                    params.put("password", cryptoPassword);
+                    params.put("organizationCode", SERVER_API_ORG_CODE);
+
+                    btnSignUp.setText("");
+                    pbProgressCircle.setVisibility(View.VISIBLE);
+
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.setUserAgent("android");
+                    client.post(activity, SERVER_ADDRESS + SERVER_API_CREATE_ACCOUNT, params, new AsyncHttpResponseHandler()
+                    {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+                        {
+                            pbProgressCircle.setVisibility(View.GONE);
+                            btnSignUp.setText(R.string.btnFCASignup);
+
+                            cacheData();
+                            activity.navMainActivity();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+                        {
+                            //Check error code
+                            if(statusCode == 400)
+                            {
+                                String responseJson = new String(responseBody);
+                                Toast.makeText(activity, responseJson, Toast.LENGTH_LONG).show();
+
+                                pbProgressCircle.setVisibility(View.GONE);
+                                btnSignUp.setText(R.string.btnFCASignup);
+                            }
+                            else if(statusCode == 0)
+                            {
+                                pbProgressCircle.setVisibility(View.GONE);
+                                btnSignUp.setText(R.string.btnFCASignup);
+                                Toast.makeText(activity, "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
 
             }
         });
+    }
+
+    private void cacheData()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        sharedPrefs.edit().putString("cachedEmail", email)
+                .putString("cachedPassword", password)
+                .putBoolean("staySignedIn", true)
+                .putString("cachedPhone", phone)
+                .putString("cachedFullName", fullName).commit();
     }
 
     private boolean validateFields()
@@ -209,5 +307,30 @@ public class FragCreateAccount extends Fragment
         }
 
         return valid;
+    }
+
+    private static String hmacSha1(String value, String key) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException
+    {
+        String type = "HmacSHA1";
+        SecretKeySpec secret = new SecretKeySpec(key.getBytes(), type);
+        Mac mac = Mac.getInstance(type);
+        mac.init(secret);
+        byte[] bytes = mac.doFinal(value.getBytes());
+        return bytesToHex(bytes);
+    }
+
+    private final static char[] hexArray = "0123456789abcdef".toCharArray();
+
+    private static String bytesToHex(byte[] bytes)
+    {
+        char[] hexChars = new char[bytes.length * 2];
+        int v;
+        for(int j = 0; j < bytes.length; j++)
+        {
+            v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }

@@ -1,6 +1,9 @@
 <resources>
+
+    <!--Generic-->
     <string name="app_name">GoTuks</string>
     <string name="banner_ad_unit_id">/112035882/GoMetroTuks</string>
+    <string name="ime_done">DONE</string>
 
     <!--Fragment Welcome-->
     <string name="txtvFWHeading">GoTuks</string>
@@ -37,5 +40,19 @@
     <string name="etxtFCAHintFullName">Enter Full Name</string>
     <string name="txtvFSDescSignIn">ALREADY HAVE AN ACCOUNT?</string>
     <string name="txtvFCASignIn"><u>SIGN IN</u></string>
+
+    <!--Nav Bar-->
+    <string name="navBarActivity">Activity</string>
+    <string name="navBarMap">Map</string>
+    <string name="navBarProfile">Profile</string>
+
+    <!--Fragment Profile-->
+    <string name="txtvFPHeading">Profile</string>
+    <string name="etxtFPHintFullName">Enter Full Name</string>
+    <string name="etxtFPHintPhone">Enter Phone Number</string>
+    <string name="etxtFPHintEmail">Enter Email</string>
+    <string name="etxtFPHintPassword">Enter Password</string>
+    <string name="etxtFPHintAddress">Enter Address</string>
+    <string name="btnFPSignout">SIGN OUT</string>
 
 </resources>

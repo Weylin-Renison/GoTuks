@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_blurred">
+
+    <TextView
+        android:id="@+id/txtvFPHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:textSize="30sp"
+        android:textColor="@color/FSBrightWhite"
+        android:text="@string/txtvFPHeading"/>
+
+    <TextView
+        android:id="@+id/txtvFPSetFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtvFPHeading"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:textSize="20sp"
+        android:textColor="@color/FSBrightWhite"
+        android:text="Weylin Pearson Renison"/>
+
+    <TextView
+        android:id="@+id/txtvFPSetAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtvFPSetFullName"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/FSBrightWhite"
+        android:textSize="16sp"
+        android:text="33 The Palms, Hadley St, Oak Glen, Cape Town 7530"/>
+
+    <RelativeLayout
+        android:id="@+id/relLayFPFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtvFPSetAddress"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/FSBrightWhite">
+
+        <ImageView
+            android:id="@+id/imgvFPFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/ic_profile_black"/>
+
+        <EditText
+            android:id="@+id/etxtFPFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvFPFullName"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textPersonName"
+            android:enabled="false"
+            android:textColor="@color/selector_text_black_diabled_dark_grey"
+            android:maxEms="13"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="@string/ime_done"
+            android:hint="@string/etxtFPHintFullName"/>
+
+        <CheckBox
+            android:id="@+id/cbFPEditFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_edit_item"/>
+
+        <View
+            android:id="@+id/vFPDivider1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_center_opacity_grey"
+            android:layout_below="@id/etxtFPFullName"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relLayFPPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relLayFPFullName"
+        android:paddingBottom="5dp"
+        android:background="@color/FSBrightWhite">
+
+        <ImageView
+            android:id="@+id/imgvFPPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/ic_phone_black"/>
+
+        <EditText
+            android:id="@+id/etxtFPPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvFPPhone"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:inputType="phone"
+            android:textSize="14sp"
+            android:enabled="false"
+            android:maxLength="10"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="@string/ime_done"
+            android:textColor="@color/selector_text_black_diabled_dark_grey"
+            android:hint="@string/etxtFPHintPhone"/>
+
+        <CheckBox
+            android:id="@+id/cbFPEditPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_edit_item"/>
+
+        <View
+            android:id="@+id/vFPDivider2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_center_opacity_grey"
+            android:layout_below="@id/etxtFPPhone"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relLayFPEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relLayFPPhone"
+        android:paddingBottom="5dp"
+        android:background="@color/FSBrightWhite">
+
+        <ImageView
+            android:id="@+id/imgvFPEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/ic_email_black"/>
+
+        <EditText
+            android:id="@+id/etxtFPEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvFPEmail"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:inputType="textEmailAddress"
+            android:textSize="14sp"
+            android:enabled="false"
+            android:maxEms="13"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="@string/ime_done"
+            android:textColor="@color/selector_text_black_diabled_dark_grey"
+            android:hint="@string/etxtFPHintEmail"/>
+
+        <CheckBox
+            android:id="@+id/cbFPEditEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_edit_item"/>
+
+        <View
+            android:id="@+id/vFPDivider3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_center_opacity_grey"
+            android:layout_below="@id/etxtFPEmail"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relLayFPPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relLayFPEmail"
+        android:paddingBottom="5dp"
+        android:background="@color/FSBrightWhite">
+
+        <ImageView
+            android:id="@+id/imgvFPPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/ic_lock_black"/>
+
+        <EditText
+            android:id="@+id/etxtFPPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvFPPassword"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textPassword"
+            android:fontFamily="sans-serif"
+            android:enabled="false"
+            android:maxEms="13"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="@string/ime_done"
+            android:textColor="@color/selector_text_black_diabled_dark_grey"
+            android:hint="@string/etxtFPHintPassword"/>
+
+        <CheckBox
+            android:id="@+id/cbFPEditPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_edit_item"/>
+
+        <View
+            android:id="@+id/vFPDivider4"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_center_opacity_grey"
+            android:layout_below="@id/etxtFPPassword"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relLayFPAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relLayFPPassword"
+        android:paddingBottom="5dp"
+        android:background="@color/FSBrightWhite">
+
+        <ImageView
+            android:id="@+id/imgvFPAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/ic_location_black"/>
+
+        <EditText
+            android:id="@+id/etxtFPAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgvFPAddress"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="0dp"
+            android:textSize="14sp"
+            android:inputType="textPostalAddress"
+            android:enabled="false"
+            android:maxEms="13"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="@string/ime_done"
+            android:textColor="@color/selector_text_black_diabled_dark_grey"
+            android:hint="@string/etxtFPHintAddress"/>
+
+        <CheckBox
+            android:id="@+id/cbFPEditAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_edit_item"/>
+
+        <View
+            android:id="@+id/vFPDivider5"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/etxtFPAddress"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnFPSignOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relLayFPAddress"
+        android:padding="10dp"
+        android:background="@color/FSBrightWhite"
+        android:textSize="20sp"
+        android:textColor="@color/NavBarBlue"
+        android:text="@string/btnFPSignout"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnFPSignOut"
+        android:layout_alignParentBottom="true"
+        android:background="@color/FSBrightWhite"/>
+
+</RelativeLayout>

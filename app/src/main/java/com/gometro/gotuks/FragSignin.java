@@ -1,10 +1,13 @@
 package com.gometro.gotuks;
 
 import android.animation.Animator;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +21,28 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.disklrucache.Util;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by wprenison on 2016/07/13.
@@ -47,6 +67,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
     LinearLayout linLayCreateAccount;
     TextView txtvCreateAccount;
     public Button btnSignIn;
+    ProgressBar pgProgessCircle;
 
     //Vars
     ActivityIntro activity;
@@ -75,6 +96,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
         linLayCreateAccount = (LinearLayout) constuctedView.findViewById(R.id.linLayFSCreateAccount);
         txtvCreateAccount = (TextView) constuctedView.findViewById(R.id.txtvFSCreateAccount);
         btnSignIn = (Button) constuctedView.findViewById(R.id.btnFSSignin);
+        pgProgessCircle = (ProgressBar) constuctedView.findViewById(R.id.pgFSProgressCircle);
 
         txtvForgotPasswoordHeading = (TextView) constuctedView.findViewById(R.id.txtvFSForgotPasswordHeading);
         txtvDescForgotPassword = (TextView) constuctedView.findViewById(R.id.txtvFSDescForgotPassword);
@@ -88,6 +110,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
         super.onActivityCreated(savedInstanceState);
 
         activity = (ActivityIntro) getActivity();
+
         //Set layout listners to focus fields when clicked on
         relLayEmail.setOnClickListener(new View.OnClickListener()
         {
@@ -95,6 +118,9 @@ public class FragSignin extends Fragment implements InterfaceSignin
             public void onClick(View view)
             {
                 etxtEmail.requestFocus();
+
+                //Set selection just before @ symbol
+                etxtEmail.setSelection(etxtEmail.getText().toString().indexOf("@"));
             }
         });
 
@@ -104,6 +130,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
             public void onClick(View view)
             {
                 etxtPassword.requestFocus();
+                etxtPassword.setSelection(etxtPassword.getText().toString().length());
             }
         });
 
@@ -149,7 +176,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
             {
                 //The state that the button is in, because this button serves 2 functions, sign in and reset
                 //password depending on the tet on the button
-                String btnState = btnSignIn.getText().toString();
+                final String btnState = btnSignIn.getText().toString();
 
                 //Get data values
                 email = etxtEmail.getText().toString().trim();
@@ -161,21 +188,188 @@ public class FragSignin extends Fragment implements InterfaceSignin
                     if(validateFields(false))
                     {
                         //Authenticate User
-                        Toast.makeText(activity, "Auth User", Toast.LENGTH_LONG).show();
-                        activity.navMainActivity();
+
+                        //Get url
+                        SharedPreferences prefMang = PreferenceManager.getDefaultSharedPreferences(activity);
+                        String SERVER_ADDRESS = prefMang.getString("SERVER_ADDRESS", null);
+                        String SERVER_API_LOGIN = prefMang.getString("SERVER_API_LOGIN", null);
+                        String SERVER_SECRET_KEY = prefMang.getString("SERVER_SECRET_KEY", null);
+
+                        //Crypto password
+                        String cryptoPassword = null;
+                        try
+                        {
+                            cryptoPassword = hmacSha1(password, SERVER_SECRET_KEY);
+                        } catch(UnsupportedEncodingException e)
+                        {
+                            e.printStackTrace();
+                        } catch(NoSuchAlgorithmException e)
+                        {
+                            e.printStackTrace();
+                        } catch(InvalidKeyException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        //Request password reset
+                        RequestParams params = new RequestParams();
+                        params.put("email", email);
+                        params.put("password", cryptoPassword);
+
+                        pgProgessCircle.setVisibility(View.VISIBLE);
+                        btnSignIn.setText("");
+
+                        final AsyncHttpClient client = new AsyncHttpClient();
+                        client.setUserAgent("android");
+                        client.post(activity, SERVER_ADDRESS + SERVER_API_LOGIN, params, new AsyncHttpResponseHandler()
+                        {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+                            {
+                                cacheData();
+                                activity.navMainActivity();
+
+                                pgProgessCircle.setVisibility(View.GONE);
+                                btnSignIn.setText(R.string.btnFSSignin);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+                            {
+                                //Check error codes
+                                if(statusCode == 400)
+                                {
+                                    String responseJson = new String(responseBody);
+                                    try
+                                    {
+                                        JSONObject jsonRespones = new JSONObject(responseJson);
+                                        String msg = jsonRespones.getString("msg");
+                                        etxtEmail.setError(msg);
+
+                                    } catch(JSONException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                else if(statusCode == 0)
+                                {
+                                    Toast.makeText(activity, "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                                }
+
+                                pgProgessCircle.setVisibility(View.GONE);
+                                btnSignIn.setText(R.string.btnFSSignin);
+                            }
+                        });
+
                     }
 
                 } else
                 {
                     if(validateFields(true))
                     {
+                        //Get url
+                        SharedPreferences prefMang = PreferenceManager.getDefaultSharedPreferences(activity);
+                        String SERVER_ADDRESS = prefMang.getString("SERVER_ADDRESS", null);
+                        String SERVER_API_RESET_PASSWORD = prefMang.getString("SERVER_API_RESET_PASSWORD", null);
+
                         //Request password reset
-                        Toast.makeText(activity, "Req pass reset", Toast.LENGTH_LONG).show();
+                        RequestParams params = new RequestParams();
+                        params.put("email", email);
+
+                        pgProgessCircle.setVisibility(View.VISIBLE);
+                        btnSignIn.setText("");
+
+                        final AsyncHttpClient client = new AsyncHttpClient();
+                        client.setUserAgent("android");
+                        client.post(activity, SERVER_ADDRESS + SERVER_API_RESET_PASSWORD, params, new AsyncHttpResponseHandler()
+                        {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+                            {
+                                Toast.makeText(activity, "Please check your email for your new password", Toast.LENGTH_LONG).show();
+                                animateForgotPassword(false);
+                                pgProgessCircle.setVisibility(View.GONE);
+                                btnSignIn.setText(R.string.btnFSSignin);
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+                            {
+//                                Log.e("statusCode Check", statusCode + "");
+                                //Check possible error codes
+                                if(statusCode == 400)
+                                {
+                                    String responseJson = new String(responseBody);
+                                    try
+                                    {
+                                        JSONObject jsonRespones = new JSONObject(responseJson);
+                                        String msg = jsonRespones.getString("msg");
+                                        etxtEmail.setError(msg);
+
+                                    } catch(JSONException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                else if(statusCode == 0)
+                                {
+                                    Toast.makeText(activity, "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                                }
+
+                                pgProgessCircle.setVisibility(View.GONE);
+                                btnSignIn.setText(R.string.btnFSResetPassword);
+                            }
+                        });
+
                     }
                 }
 
             }
         });
+
+        //Initialize with cached data
+        initFrag();
+    }
+
+    private void initFrag()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        String cachedEmail = sharedPrefs.getString("cachedEmail", "");
+        String cachedPassword = sharedPrefs.getString("cachedPassword", "");
+        boolean staySignedIn = sharedPrefs.getBoolean("staySignedIn", true);
+
+        //Pre populate email if there is a cached value
+        if(!cachedEmail.isEmpty())
+            etxtEmail.setText(cachedEmail);
+
+        if(!staySignedIn)
+        {
+            cbStaySignedIn.setChecked(false);
+        }
+        else
+        {
+            if(!cachedPassword.isEmpty())
+            {
+                etxtPassword.setText(cachedPassword);
+
+                //Authenticate
+                btnSignIn.performClick();
+            }
+        }
+    }
+
+    private void cacheData()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        sharedPrefs.edit().putString("cachedEmail", email).commit();
+
+        if(cbStaySignedIn.isChecked())
+            sharedPrefs.edit().putString("cachedPassword", password).putBoolean("staySignedIn", true).commit();
+        else
+            sharedPrefs.edit().putBoolean("staySignedIn", false).commit();
     }
 
     private boolean validateFields(boolean forgotPasswordValidation)
@@ -194,13 +388,38 @@ public class FragSignin extends Fragment implements InterfaceSignin
         {
             etxtEmail.setError("Required Field");
             valid = false;
-        } else if(!email.endsWith("@tuks.ac.za"))
-        {
-            etxtEmail.setError("Only university emails are accepted");
-            valid = false;
-        }
+        } //else if(!email.endsWith("@tuks.ac.za")) TODO:Renable validation for @tuks.ac.za
+//        {
+//            etxtEmail.setError("Only university emails are accepted");
+//            valid = false;
+//        }
 
         return valid;
+    }
+
+    private static String hmacSha1(String value, String key) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException
+    {
+        String type = "HmacSHA1";
+        SecretKeySpec secret = new SecretKeySpec(key.getBytes(), type);
+        Mac mac = Mac.getInstance(type);
+        mac.init(secret);
+        byte[] bytes = mac.doFinal(value.getBytes());
+        return bytesToHex(bytes);
+    }
+
+    private final static char[] hexArray = "0123456789abcdef".toCharArray();
+
+    private static String bytesToHex(byte[] bytes)
+    {
+        char[] hexChars = new char[bytes.length * 2];
+        int v;
+        for(int j = 0; j < bytes.length; j++)
+        {
+            v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 
     public void animateForgotPassword(boolean forward)

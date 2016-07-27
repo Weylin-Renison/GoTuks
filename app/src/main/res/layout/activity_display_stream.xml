@@ -13,61 +13,98 @@
         mapbox:mapid="wprenison.nbmehmgo"
         mapbox:accessToken="sk.eyJ1Ijoid3ByZW5pc29uIiwiYSI6ImVkZGUyMzdlYWJmMTYxZWNlOWE3MGI3ZGM3ZTc4NWI5In0.I68vxId1DHnntpguAwK8Tg"/>
 
-    <RelativeLayout
-        android:id="@+id/relLayADSBusKey"
+    <Button
+        android:id="@+id/btnADSMapBlocker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/linLayADSBusKey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_alignParentTop="true">
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/FSBrightWhite"
+        android:orientation="horizontal"
+        android:elevation="10dp">
 
-        <ImageView
-            android:id="@+id/imgvADSEmptyBus"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_bus_g"/>
-
-        <TextView
-            android:id="@+id/txtvADSEmptyBus"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linLayEmptyBus"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/imgvADSEmptyBus"
-            android:layout_centerVertical="true"
-            android:textColor="@color/material_blue_grey_950"
-            android:text="Empty Bus"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imgvADSHeavyTraffic"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@id/txtvADSEmptyBus"
-            android:src="@drawable/ic_bus_y"/>
+            <ImageView
+                android:id="@+id/imgvADSEmptyBus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_bus_g_key"/>
 
-        <TextView
-            android:id="@+id/txtvADSHeavyTraffic"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/txtvADSEmptyBus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/NavBarGrey"
+                android:textSize="12sp"
+                android:text="Empty Bus"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayHeavyTraffic"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/imgvADSHeavyTraffic"
-            android:textColor="@color/material_blue_grey_950"
-            android:text="Heavy Traffic"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <ImageView
-            android:id="@+id/imgvADSBusFull"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@id/txtvADSHeavyTraffic"
-            android:src="@drawable/ic_bus_r"/>
+            <ImageView
+                android:id="@+id/imgvADSHeavyTraffic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_bus_y_key"/>
 
-        <TextView
-            android:id="@+id/txtvADSBusFull"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/txtvADSHeavyTraffic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/NavBarGrey"
+                android:textSize="12sp"
+                android:text="Heavy Traffic"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayFullBus"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/imgvADSBusFull"
-            android:textColor="@color/material_blue_grey_950"
-            android:text="Bus Full"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/imgvADSBusFull"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_bus_r_key"/>
+
+            <TextView
+                android:id="@+id/txtvADSBusFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/NavBarGrey"
+                android:textSize="12sp"
+                android:text="Bus Full"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.google.android.gms.ads.doubleclick.PublisherAdView
         android:id="@+id/publisherAdView"
@@ -76,8 +113,103 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
+        ads:adUnitId="@string/banner_ad_unit_id"
+        android:visibility="gone">
     </com.google.android.gms.ads.doubleclick.PublisherAdView>
 
+    <LinearLayout
+        android:id="@+id/linLayNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/FSBrightWhite"
+        android:elevation="25dp">
+
+        <LinearLayout
+            android:id="@+id/linLayNavBarActivity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cbADSActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:button="@drawable/selector_nav_activity"/>
+
+            <TextView
+                android:id="@+id/txtvNavBarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/NavBarGrey"
+                android:text="@string/navBarActivity"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayNavBarMap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cbADSMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:button="@drawable/selector_nav_map"/>
+
+            <TextView
+                android:id="@+id/txtvNavBarMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/NavBarBlue"
+                android:text="@string/navBarMap"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayNavBarProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cbADSProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:button="@drawable/selector_nav_profile"/>
+
+            <TextView
+                android:id="@+id/txtvNavBarProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/NavBarGrey"
+                android:text="@string/navBarProfile"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fLayADSContent"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:elevation="25dp"
+        android:layout_above="@id/linLayNavBar"/>
 
 </RelativeLayout>

@@ -9,12 +9,19 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
@@ -57,9 +64,23 @@ public class ActivityDisplayStream extends AppCompatActivity
 
     private String TAG = "DisplayStream";
     private MapView mvDisplayStream;
+    private Button btnMapBlocker;
     PublisherAdView mPublisherAdView;
-    private RelativeLayout relLayBusKey;
+    private LinearLayout linLaysBusKey;
 
+    //NavBar
+    private LinearLayout linLayNavBar;
+    private LinearLayout linLayActivity;
+    private CheckBox cbActivity;
+    private TextView txtvActivity;
+    private LinearLayout linLayMap;
+    private CheckBox cbMap;
+    private TextView txtvMap;
+    private LinearLayout linLayProfile;
+    private CheckBox cbProfile;
+    private TextView txtvProfile;
+
+    private ItemizedIconOverlay itemizedOverlay;
     private List<Marker> lstVehicleMarkers;
     private List<Marker> lstPoiMarkers;
     public List<GeoJsonPOI> lstPoiGeoJsonMarkers;
@@ -67,7 +88,10 @@ public class ActivityDisplayStream extends AppCompatActivity
     private boolean reqCompleted = true;
     private Timer timer;
 
+    //Fragments
     private FragmentManager fragMang;
+    private FragProfile fragProfile;
+    private FragActivity fragActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -79,6 +103,7 @@ public class ActivityDisplayStream extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mvDisplayStream = (MapView) findViewById(R.id.mvADSmap);
+        btnMapBlocker = (Button) findViewById(R.id.btnADSMapBlocker);
         mPublisherAdView = (PublisherAdView) findViewById(R.id.publisherAdView);
 
         fragMang = getSupportFragmentManager();
@@ -89,6 +114,7 @@ public class ActivityDisplayStream extends AppCompatActivity
 
         initMap();
         initBusKey();
+        initNavBar();
         initAdBanner();
 
     }
@@ -145,6 +171,7 @@ public class ActivityDisplayStream extends AppCompatActivity
 
                         //Set marker pin
                         poiMarker.setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop)));
+                        poiMarker.setHotspot(Marker.HotspotPlace.NONE);
                         mvDisplayStream.addMarker(poiMarker);
                         lstPoiMarkers.add(poiMarker);
                         poi.setMarker(poiMarker);
@@ -167,7 +194,7 @@ public class ActivityDisplayStream extends AppCompatActivity
         }
 
         //Add on click events for poi markers
-        ItemizedIconOverlay itemizedOverlay = new ItemizedIconOverlay(this, lstPoiMarkers, new ItemizedIconOverlay.OnItemGestureListener<Marker>()
+        itemizedOverlay = new ItemizedIconOverlay(this, lstPoiMarkers, new ItemizedIconOverlay.OnItemGestureListener<Marker>()
         {
             @Override
             public boolean onItemSingleTapUp(int i, Marker marker)
@@ -255,11 +282,198 @@ public class ActivityDisplayStream extends AppCompatActivity
 
     private void initBusKey()
     {
-        relLayBusKey = (RelativeLayout) findViewById(R.id.relLayADSBusKey);
+        linLaysBusKey = (LinearLayout) findViewById(R.id.linLayADSBusKey);
 
         Animation animPopUp = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_top);
-        animPopUp.setDuration(1000);
-        relLayBusKey.startAnimation(animPopUp);
+        animPopUp.setDuration(500);
+        linLaysBusKey.startAnimation(animPopUp);
+    }
+
+    private void initNavBar()
+    {
+        linLayNavBar = (LinearLayout) findViewById(R.id.linLayNavBar);
+
+        //Get handle on radio buttons
+        linLayActivity = (LinearLayout) findViewById(R.id.linLayNavBarActivity);
+        cbActivity = (CheckBox) findViewById(R.id.cbADSActivity);
+        txtvActivity = (TextView) findViewById(R.id.txtvNavBarActivity);
+        linLayMap = (LinearLayout) findViewById(R.id.linLayNavBarMap);
+        cbMap = (CheckBox) findViewById(R.id.cbADSMap);
+        txtvMap = (TextView) findViewById(R.id.txtvNavBarMap);
+        linLayProfile = (LinearLayout) findViewById(R.id.linLayNavBarProfile);
+        cbProfile = (CheckBox) findViewById(R.id.cbADSProfile);
+        txtvProfile = (TextView) findViewById(R.id.txtvNavBarProfile);
+
+        //Set on click listners
+        cbActivity.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                //Change text colors
+                txtvActivity.setTextColor(getResources().getColor(R.color.NavBarBlue));
+                txtvMap.setTextColor(getResources().getColor(R.color.NavBarGrey));
+                txtvProfile.setTextColor(getResources().getColor(R.color.NavBarGrey));
+
+                //Check this rad even if its already checked in order to negate unchecking while on
+                //same screen
+                cbActivity.setChecked(true);
+
+                //Uncheck other rads
+                cbMap.setChecked(false);
+                cbProfile.setChecked(false);
+
+                //Show activity screen
+
+                //populate frame layout with fragment
+                //Only create new frag if an instance does not already exist
+                if(fragActivity == null)
+                    fragActivity = new FragActivity();
+
+                //if other frag is visible remove or pop its back stack first to avoid stacking the back stack
+                if(fragProfile != null)
+                    if(fragProfile.isVisible())
+                        fragMang.popBackStack();
+
+                //Only bring frag in it is not visible already
+                if(!fragActivity.isVisible())
+                {
+                    FragmentTransaction fragTrans = fragMang.beginTransaction();
+                    fragTrans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_left)
+                            .replace(R.id.fLayADSContent, fragActivity)
+                            .addToBackStack("toFragActivity").commit();
+
+                    //Disable map in background so it does not receive click events
+                    btnMapBlocker.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        cbMap.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                //Accept click events again
+                btnMapBlocker.setVisibility(View.GONE);
+
+                //Change text colors
+                txtvMap.setTextColor(getResources().getColor(R.color.NavBarBlue));
+                txtvActivity.setTextColor(getResources().getColor(R.color.NavBarGrey));
+                txtvProfile.setTextColor(getResources().getColor(R.color.NavBarGrey));
+
+                //Check this rad even if its already checked in order to negate unchecking while on
+                //same screen
+                cbMap.setChecked(true);
+
+                //Uncheck other rads
+                cbActivity.setChecked(false);
+                cbProfile.setChecked(false);
+
+                //Display map
+
+                //pop back stack to reverse any visible frags if there are any
+                fragMang.popBackStack();
+            }
+        });
+
+        cbProfile.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                //Change text colors
+                txtvProfile.setTextColor(getResources().getColor(R.color.NavBarBlue));
+                txtvMap.setTextColor(getResources().getColor(R.color.NavBarGrey));
+                txtvActivity.setTextColor(getResources().getColor(R.color.NavBarGrey));
+
+                //Check this rad even if its already checked in order to negate unchecking while on
+                //same screen
+                cbProfile.setChecked(true);
+
+                //Uncheck other rads
+                cbActivity.setChecked(false);
+                cbMap.setChecked(false);
+
+                //Display profile screen
+
+                //populate frame layout with fragment
+                //Only create new frag if an instance does not already exist
+                if(fragProfile == null)
+                    fragProfile = new FragProfile();
+
+                //if other frag is visible remove or pop its back stack first to avoid stacking the back stack
+                if(fragActivity != null)
+                    if(fragActivity.isVisible())
+                        fragMang.popBackStack();
+
+                //Only bring frag in it is not visible already
+                if(!fragProfile.isVisible())
+                {
+                    FragmentTransaction fragTrans = fragMang.beginTransaction();
+                    fragTrans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_right)
+                            .replace(R.id.fLayADSContent, fragProfile)
+                            .addToBackStack("toFragProfile").commit();
+
+                    //Disable map in background so it does not receive click events
+                    btnMapBlocker.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+        });
+
+        //Set click listner if user clicks text or not exactly on icon
+        linLayActivity.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                cbActivity.performClick();
+            }
+        });
+
+        linLayMap.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                cbMap.performClick();
+            }
+        });
+
+        linLayProfile.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                cbProfile.performClick();
+            }
+        });
+
+//        Animation animPopUp = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_bottom);
+//        animPopUp.setDuration(500);
+//        linLaysBusKey.startAnimation(animPopUp);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        //Accept click events to the map again
+        btnMapBlocker.setVisibility(View.GONE);
+
+        //Return nav button status to map checked for when poping the back stack from the back button
+        cbProfile.setChecked(false);
+        cbActivity.setChecked(false);
+        cbMap.setChecked(true);
+
+        //Adjust text colors accordingly as well
+        txtvActivity.setTextColor(getResources().getColor(R.color.NavBarGrey));
+        txtvProfile.setTextColor(getResources().getColor(R.color.NavBarGrey));
+        txtvMap.setTextColor(getResources().getColor(R.color.NavBarBlue));
+
+        super.onBackPressed();
     }
 
     private void initAdBanner()
