@@ -1,11 +1,13 @@
 package com.gometro.gotuks;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +21,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
@@ -50,6 +51,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cz.msebera.android.httpclient.Header;
+
 /**
  * Created by wprenison on 2015/09/25.
  */
@@ -65,6 +68,7 @@ public class ActivityDisplayStream extends AppCompatActivity
     private String TAG = "DisplayStream";
     private MapView mvDisplayStream;
     private Button btnMapBlocker;
+    private Button btnEmergencyCall;
     PublisherAdView mPublisherAdView;
     private LinearLayout linLaysBusKey;
 
@@ -91,7 +95,9 @@ public class ActivityDisplayStream extends AppCompatActivity
     //Fragments
     private FragmentManager fragMang;
     private FragProfile fragProfile;
-    private FragActivity fragActivity;
+    private FragReportFacility fragReportFacility;
+
+    private List<String> lstUserFavStops;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -104,6 +110,7 @@ public class ActivityDisplayStream extends AppCompatActivity
 
         mvDisplayStream = (MapView) findViewById(R.id.mvADSmap);
         btnMapBlocker = (Button) findViewById(R.id.btnADSMapBlocker);
+        btnEmergencyCall = (Button) findViewById(R.id.btnADSEmergancyCall);
         mPublisherAdView = (PublisherAdView) findViewById(R.id.publisherAdView);
 
         fragMang = getSupportFragmentManager();
@@ -116,6 +123,95 @@ public class ActivityDisplayStream extends AppCompatActivity
         initBusKey();
         initNavBar();
         initAdBanner();
+        showAnnouncements();
+        getUserFavStops();
+
+        //Set on click for emergency call
+        btnEmergencyCall.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "0800006428"));
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void getUserFavStops()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String SERVER_ADDRESS = sharedPrefs.getString("SERVER_ADDRESS", "");
+        String SERVER_API_USER_FAV_STOPS = sharedPrefs.getString("SERVER_API_USER_FAV_STOPS", "");
+        String email = sharedPrefs.getString("cachedEmail", "");
+
+        RequestParams params = new RequestParams();
+        params.put("email", email);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(this, SERVER_ADDRESS + SERVER_API_USER_FAV_STOPS, params, new AsyncHttpResponseHandler()
+        {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+            {
+                //Get stop ids of users fav stops
+                try
+                {
+                    String jsonStringResponse = new String(responseBody);
+
+                    JSONArray jsonArrayResponse = new JSONArray(jsonStringResponse);
+                    lstUserFavStops = new ArrayList<String>();
+
+                    for(int i = 0; i < jsonArrayResponse.length(); i++)
+                    {
+                        JSONObject favStopObj = jsonArrayResponse.getJSONObject(i);
+                        JSONObject stopObj = favStopObj.getJSONObject("stop");
+                        lstUserFavStops.add(stopObj.getString("stopId"));
+
+                        for(int j = 0; j < lstPoiGeoJsonMarkers.size(); j++)
+                        {
+                            GeoJsonPOI poi = lstPoiGeoJsonMarkers.get(j);
+
+                            if(stopObj.getString("stopId").equals(poi.getId()))
+                            {
+                                poi.setIsFavStop(true);
+                                poi.getMarker().setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop_fav)));
+                            }
+                        }
+                    }
+
+                }
+                catch(JSONException je)
+                {
+                    je.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+            {
+                //Check error codes
+                if(statusCode == 400)
+                {
+                    String responseJson = new String(responseBody);
+                    try
+                    {
+                        JSONObject jsonRespones = new JSONObject(responseJson);
+                        String msg = jsonRespones.getString("msg");
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+
+                    } catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else if(statusCode == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -143,6 +239,8 @@ public class ActivityDisplayStream extends AppCompatActivity
         });
         mvDisplayStream.setZoom((float) START_LOC_ZOOM);
 
+        mvDisplayStream.setUserLocationEnabled(true);
+
         JSONObject featCollection = readGeoJsonAsset();
 
         if(featCollection != null)
@@ -164,13 +262,29 @@ public class ActivityDisplayStream extends AppCompatActivity
                     if(featType.equalsIgnoreCase("Point"))
                     {
                         JSONArray featSchedule = featObj.getJSONArray("schedules");
+                        String poiID = featObj.getString("id");
 
                         //Add poi marker
-                        GeoJsonPOI poi = new GeoJsonPOI(featProperties, featGeometry, featSchedule);
+                        GeoJsonPOI poi = new GeoJsonPOI(featProperties, featGeometry, featSchedule, poiID);
                         Marker poiMarker = poi.getPOIMarker();
 
-                        //Set marker pin
-                        poiMarker.setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop)));
+//                        //Set marker pin
+//                        boolean isFavStop = false;
+//                        for(int z = 0; z < lstUserFavStops.size(); z++)
+//                        {
+//                            if(poi.getId().equals(lstUserFavStops.get(z)))
+//                            {
+//                                poi.setIsFavStop(true);
+//                                isFavStop = true;
+//                                break;
+//                            }
+//                        }
+
+                        if(poi.getIsFavStop())
+                            poiMarker.setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop_fav)));
+                        else
+                            poiMarker.setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop)));
+
                         poiMarker.setHotspot(Marker.HotspotPlace.NONE);
                         mvDisplayStream.addMarker(poiMarker);
                         lstPoiMarkers.add(poiMarker);
@@ -237,6 +351,20 @@ public class ActivityDisplayStream extends AppCompatActivity
 //
 //        lstPoiMarkers.add(poiMarker);
 //        mvDisplayStream.addMarker(poiMarker);
+    }
+
+    public void updateMarkerAsFav(boolean isFav, int poiIndex)
+    {
+        if(isFav)
+        {
+            lstPoiGeoJsonMarkers.get(poiIndex).setIsFavStop(true);
+            lstPoiGeoJsonMarkers.get(poiIndex).getMarker().setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop_fav)));
+        }
+        else
+        {
+            lstPoiGeoJsonMarkers.get(poiIndex).setIsFavStop(false);
+            lstPoiGeoJsonMarkers.get(poiIndex).getMarker().setIcon(new Icon(getResources().getDrawable(R.drawable.pin_bus_stop)));
+        }
     }
 
     private JSONObject readGeoJsonAsset()
@@ -327,8 +455,8 @@ public class ActivityDisplayStream extends AppCompatActivity
 
                 //populate frame layout with fragment
                 //Only create new frag if an instance does not already exist
-                if(fragActivity == null)
-                    fragActivity = new FragActivity();
+                if(fragReportFacility == null)
+                    fragReportFacility = new FragReportFacility();
 
                 //if other frag is visible remove or pop its back stack first to avoid stacking the back stack
                 if(fragProfile != null)
@@ -336,11 +464,11 @@ public class ActivityDisplayStream extends AppCompatActivity
                         fragMang.popBackStack();
 
                 //Only bring frag in it is not visible already
-                if(!fragActivity.isVisible())
+                if(!fragReportFacility.isVisible())
                 {
                     FragmentTransaction fragTrans = fragMang.beginTransaction();
                     fragTrans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_left)
-                            .replace(R.id.fLayADSContent, fragActivity)
+                            .replace(R.id.fLayADSContent, fragReportFacility)
                             .addToBackStack("toFragActivity").commit();
 
                     //Disable map in background so it does not receive click events
@@ -404,8 +532,8 @@ public class ActivityDisplayStream extends AppCompatActivity
                     fragProfile = new FragProfile();
 
                 //if other frag is visible remove or pop its back stack first to avoid stacking the back stack
-                if(fragActivity != null)
-                    if(fragActivity.isVisible())
+                if(fragReportFacility != null)
+                    if(fragReportFacility.isVisible())
                         fragMang.popBackStack();
 
                 //Only bring frag in it is not visible already
@@ -455,6 +583,19 @@ public class ActivityDisplayStream extends AppCompatActivity
 //        Animation animPopUp = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_bottom);
 //        animPopUp.setDuration(500);
 //        linLaysBusKey.startAnimation(animPopUp);
+    }
+
+    private void showAnnouncements()
+    {
+        //Create and display schedule dialog
+        FragDiagAnnouncements fragAnnouncements = new FragDiagAnnouncements();
+
+        //Set any nec arguments
+//        Bundle args = new Bundle();
+//        args.putInt("stopIndex", geoJsonMarkerIndex);
+//        fragAnnouncements.setArguments(args);
+
+        fragAnnouncements.show(fragMang, "FragDiagAnnouncements");
     }
 
     @Override
@@ -712,5 +853,12 @@ public class ActivityDisplayStream extends AppCompatActivity
     {
         timer.cancel();
         super.onPause();
+    }
+
+    public void setReportAddress(String formattedAddress, double lat, double lon)
+    {
+        fragReportFacility.txtvLocation.setText(formattedAddress);
+        fragReportFacility.locLat = lat;
+        fragReportFacility.locLon = lon;
     }
 }

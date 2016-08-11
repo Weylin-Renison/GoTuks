@@ -6,6 +6,18 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_blurred">
 
+    <ProgressBar
+        android:id="@+id/pgFPProgressCircle"
+        android:indeterminate="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="-60dp"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/progress_circle"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/txtvFPHeading"
         android:layout_width="wrap_content"
@@ -196,7 +208,8 @@
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:button="@drawable/selector_edit_item"/>
+            android:button="@drawable/selector_edit_item"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/vFPDivider3"
@@ -326,9 +339,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/relLayFPAddress"
         android:padding="10dp"
-        android:background="@color/FSBrightWhite"
+        android:background="@color/NavBarBlue"
         android:textSize="20sp"
-        android:textColor="@color/NavBarBlue"
+        android:textColor="@color/FSBrightWhite"
         android:text="@string/btnFPSignout"/>
 
     <View

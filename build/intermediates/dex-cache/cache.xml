@@ -1,2 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/8.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="27775d59b16610ac76f1b83693fedd9520396332">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-ads-8.3.0_4f4ba3f7f59f1132138c8579ad5c07758929886c.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/support-annotations-22.2.1_59c5456f045c10736a3d33cecac9b504db819086.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.android.support-appcompat-v7-22.2.1_0a877894973eee8687e7e619462100b53877fa39.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/library-2.4.0_6a2fd40977597d551c8b81a66780055fe46c0250.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="345a1b5cf5b144ce18ba6962bc66a7e2f26c1c1b">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-basement-8.3.0_e331c446b3b9703204ffb4298ed305515f4910bb.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="77f9593d979f4347344be233bd0d888315f79517">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-maps-8.3.0_05c9f43635bab08a1f0218a49b91ff29b5a087f4.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.vividsolutions/jts/1.13/3ccfb9b60f04d71add996a666ceb8902904fd805/jts-1.13.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="3ccfb9b60f04d71add996a666ceb8902904fd805">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/jts-1.13_ad94a88b536d87bd0c8e5a57ba912be94d74d862.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.9/386a4339ffe52d5d63e80f9bed8d2b1d1a418249/android-async-http-1.4.9.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/android-async-http-1.4.9_59adf156c00d40bb2777b705a33290e06e1adfa6.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="01a90bbb9495a8bbf6f3cfdf12f1b35caaa9524b">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-base-8.3.0_74c001d5b969fbb29f897c89bfe6986e2b240fe3.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.4.0/5b72bf48563ea8410e650de14aa33ff69a3e8c35/okio-1.4.0.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="5b72bf48563ea8410e650de14aa33ff69a3e8c35">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/okio-1.4.0_6ff11aee6c319523f599bd5ed3ebc7ca793d0dce.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/pl.droidsonroids.gif/android-gif-drawable/1.1.17/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="7f8c6fd043a9c060badf3fa9b77e51c422af0a8b">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/pl.droidsonroids.gif-android-gif-drawable-1.1.17_977702d04961cf969c7b5b6b70c9db6764890210.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/2.6.1/d9521f2aecb909835746b7a5facf612af5e890e8/protobuf-java-2.6.1.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="d9521f2aecb909835746b7a5facf612af5e890e8">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/protobuf-java-2.6.1_9de287db12277be47ba05e16143e91b6649fc635.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/cz.msebera.android/httpclient/4.3.6/526a9f794eab830eae4f23a62c572878b3f491ab/httpclient-4.3.6.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/httpclient-4.3.6_f499e6dc6f4d7d4ee882a4d82a7a18600655098f.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/internal_impl-22.2.1_210ef069f136b685d46a7dc009c79c65ed54ce4d.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.android.support-support-v4-22.2.1_361b2eb7164ee1fe4f4040d505e73dd41efa49ee.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4.3/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="4d3de1e946207667e76261421de0218f132960e0">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.google.maps.android-android-maps-utils-0.4.3_17a67dfb2fb5840cacacc4f819194bad78e5bbca.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.mapbox.mapboxsdk/mapbox-android-sdk/0.7.4/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="4bd64ebaab7edb0bccbb031dbdb7b1a7239d58f7">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.mapbox.mapboxsdk-mapbox-android-sdk-0.7.4_9d6770c50a5f4c39184499201379b8a395f75d6e.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp-urlconnection/2.4.0/a0c195f14cefc7597e0bebf22c3e7b43920dcf4/okhttp-urlconnection-2.4.0.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="0a0c195f14cefc7597e0bebf22c3e7b43920dcf4">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/okhttp-urlconnection-2.4.0_a5f4e892e9d148710031b306c1d98f340c6bf78e.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.jakewharton/disklrucache/2.0.2/93b399470e72c0bc8cb52379943b63c9aa586cd8/disklrucache-2.0.2.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="93b399470e72c0bc8cb52379943b63c9aa586cd8">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/disklrucache-2.0.2_15dfb8a48137ee403eea1f939173dfacd55d3b91.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="6d9ed9a288364688e7fcf6704776284dac1eb42e">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-location-8.3.0_714b7725f8d88593800dc31d972ace0b7480e12e.jar" />
+    </item>
+    <item
+        jar="/Users/wprenison/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.4.0/40340c0748190fe897baf7bffbc1b282734294e5/okhttp-2.4.0.jar"
+        jumboMode="false"
+        revision="24.0.0"
+        sha1="40340c0748190fe897baf7bffbc1b282734294e5">
+        <dex dex="/Users/wprenison/Desktop/AndroidProjects/gotuks/app/build/intermediates/pre-dexed/release/okhttp-2.4.0_1597b017ebe091f8343c8ae14fae328fa430e879.jar" />
+    </item>
+
+</items>

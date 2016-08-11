@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/dialog_holo_light_frame">
+
+    <CheckedTextView
+        android:id="@+id/txtvIteamHeadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layoutDirection="ltr"
+        android:gravity="left|center_vertical"
+        android:textSize="16sp"
+        android:text="Headline Here"
+        android:drawableRight="@drawable/selector_checkbox_expand_group"/>
+
+</RelativeLayout>

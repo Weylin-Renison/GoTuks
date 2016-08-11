@@ -10,14 +10,20 @@ import android.preference.PreferenceManager;
 public class GoMetroLiveUPApplication extends Application
 {
 
-    private final String SERVER_ADDRESS = "http://live.gometro.co.za:9000"; //"http://159.8.180.6:9001";//"http://159.8.180.6:9001";
+    private final String SERVER_ADDRESS = "http://live.gometro.co.za:9000";//"http://192.168.8.106:9000"; //"http://192.168.10.101:9000"; //"http://live.gometro.co.za:9000"; //"http://159.8.180.6:9001";//"http://159.8.180.6:9001";
     private final String SERVER_SECRET_KEY = "e2`_=MUjd=owE>V?k@PLtAXBdoLi@HrvHER1F8odwYEaH5o64yjIkP/=t;TEj0iw";
     private final String SERVER_API_DOWNSTREAM = "/downStream";
     private final String SERVER_API_LOGIN = "/loginAppUser";
     private final String SERVER_API_RESET_PASSWORD = "/resetAppUserPassword";
     private final String SERVER_API_CREATE_ACCOUNT = "/registerAppUser";
     private final String SERVER_API_ORG_CODE = "yy#6Xx+f";
-    private final String SERVER_API_ANOUNCMENTS = "/getAnouncments";
+    private final String SERVER_API_ANNOUNCMENTS = "/getAnouncments";
+    private final String SERVER_API_UPDATE_USER = "/updateAppUser";
+    private final String SERVER_API_CREATE_FAV_STOP = "/createFavStop";
+    private final String SERVER_API_REMOVE_FAV_STOP = "/removeFavStopWithoutKnownId";
+    private final String SERVER_API_IS_FAV_STOP = "/isFavStop";
+    private final String SERVER_API_USER_FAV_STOPS = "//getUserFavStops";
+    private final String SERVER_API_UPLOAD_REPORT = "/uploadReport";
 
     @Override
     public void onCreate()
@@ -42,7 +48,13 @@ public class GoMetroLiveUPApplication extends Application
                 .putString("SERVER_API_RESET_PASSWORD", SERVER_API_RESET_PASSWORD)
                 .putString("SERVER_API_CREATE_ACCOUNT", SERVER_API_CREATE_ACCOUNT)
                 .putString("SERVER_API_ORG_CODE", SERVER_API_ORG_CODE)
-                .putString("SERVER_API_ANOUNCMENTS", SERVER_API_ANOUNCMENTS).commit();
+                .putString("SERVER_API_ANNOUNCMENTS", SERVER_API_ANNOUNCMENTS)
+                .putString("SERVER_API_UPDATE_USER", SERVER_API_UPDATE_USER)
+                .putString("SERVER_API_CREATE_FAV_STOP", SERVER_API_CREATE_FAV_STOP)
+                .putString("SERVER_API_REMOVE_FAV_STOP", SERVER_API_REMOVE_FAV_STOP)
+                .putString("SERVER_API_IS_FAV_STOP", SERVER_API_IS_FAV_STOP)
+                .putString("SERVER_API_USER_FAV_STOPS", SERVER_API_USER_FAV_STOPS)
+                .putString("SERVER_API_UPLOAD_REPORT", SERVER_API_UPLOAD_REPORT).commit();
     }
 
     private void runOnNewVersion(SharedPreferences sharedPrefs)

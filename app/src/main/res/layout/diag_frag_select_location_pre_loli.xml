@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mVFSLMapContent"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"/>
+
+    <Button
+        android:id="@+id/btnFSLHelp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="13dp"/>
+
+    <SearchView
+        android:id="@+id/svFSLSearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:queryHint="Enter Address"/>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/imgvFSLLoadingCircle"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/loading_circle_car"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnFSLDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="-8dp"
+        android:layout_weight="1"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:text="DONE"
+        android:textColor="@color/FSBrightWhite"
+        android:layout_below="@id/mVFSLMapContent"
+        android:background="@color/NavBarBlue"/>
+
+</RelativeLayout>

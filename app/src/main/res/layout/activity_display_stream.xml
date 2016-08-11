@@ -205,6 +205,19 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnADSEmergancyCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/linLayNavBar"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"
+        android:background="@color/NavBarBlue"
+        android:drawableLeft="@drawable/ic_call"
+        android:text="Emergency"
+        android:textColor="@color/FSBrightWhite"/>
+
     <FrameLayout
         android:id="@+id/fLayADSContent"
         android:layout_width="fill_parent"

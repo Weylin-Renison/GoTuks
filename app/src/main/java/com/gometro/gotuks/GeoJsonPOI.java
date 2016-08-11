@@ -13,12 +13,14 @@ import org.json.JSONObject;
  */
 public class GeoJsonPOI
 {
+    private String id = "";
     private Marker marker;
     private String title;
     private String description;
     private double lat;
     private double lon;
     private String[][] schedules;
+    private boolean isUserFav = false;
 
     public GeoJsonPOI(JSONObject poiProperties, JSONObject poiGeometry)
     {
@@ -40,6 +42,36 @@ public class GeoJsonPOI
     {
         try
         {
+            title = poiProperties.getString("title");
+            description = poiProperties.getString("description");
+            JSONArray cords = poiGeometry.getJSONArray("coordinates");
+            lon = cords.getDouble(0);
+            lat = cords.getDouble(1);
+
+            int noOfSchedules = poiSchedules.length();
+            schedules = new String[noOfSchedules][2];
+
+            for(int i = 0; i < noOfSchedules; i++)
+            {
+                JSONArray jsonArraySchedule = poiSchedules.getJSONArray(i);
+                String[] schedule = new String[3];
+                schedule[0] = jsonArraySchedule.getString(0);
+                schedule[1] = jsonArraySchedule.getString(1);
+                schedule[2] = jsonArraySchedule.getString(2);
+                schedules[i] = schedule;
+            }
+        }
+        catch (JSONException je)
+        {
+            je.printStackTrace();
+        }
+    }
+
+    public GeoJsonPOI(JSONObject poiProperties, JSONObject poiGeometry, JSONArray poiSchedules, String poiId)
+    {
+        try
+        {
+            id = poiId;
             title = poiProperties.getString("title");
             description = poiProperties.getString("description");
             JSONArray cords = poiGeometry.getJSONArray("coordinates");
@@ -94,4 +126,11 @@ public class GeoJsonPOI
 
     public String[][] getSchedules(){return schedules;}
 
+    public String getId(){return id;}
+
+    public boolean getIsFavStop(){return isUserFav;}
+    public void setIsFavStop(boolean isUserFavStop)
+    {
+        this.isUserFav = isUserFavStop;
+    }
 }

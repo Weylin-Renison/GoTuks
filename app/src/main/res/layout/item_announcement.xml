@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txtvItemAnouncement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:textSize="12sp"
+        android:text="An example of an possible message to students about an event on the 11th of August 2016, all students to attend this is mandatory. Students who dont attend will not be permitted to exam venues"
+        android:background="@android:drawable/editbox_dropdown_light_frame"/>
+
+</LinearLayout>

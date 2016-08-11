@@ -3,6 +3,7 @@ package com.gometro.gotuks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.rtp.RtpStream;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -19,8 +20,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by wprenison on 2016/07/22.
@@ -29,6 +41,7 @@ public class FragProfile extends Fragment
 {
 
     //Views
+    ProgressBar pbProgressCircle;
     TextView txtvFullName;
     TextView txtvAddress;
     EditText etxtFullName;
@@ -64,6 +77,7 @@ public class FragProfile extends Fragment
         View constructedView = inflater.inflate(R.layout.frag_profile, container, false);
 
         //Get handle on views
+        pbProgressCircle = (ProgressBar) constructedView.findViewById(R.id.pgFPProgressCircle);
         txtvFullName = (TextView) constructedView.findViewById(R.id.txtvFPSetFullName);
         txtvAddress = (TextView) constructedView.findViewById(R.id.txtvFPSetAddress);
         etxtFullName = (EditText) constructedView.findViewById(R.id.etxtFPFullName);
@@ -103,7 +117,10 @@ public class FragProfile extends Fragment
         cachedPhone = sharedPrefs.getString("cachedPhone", "");
         cachedEmail = sharedPrefs.getString("cachedEmail", "");
         cachedPassword = sharedPrefs.getString("cachedPassword", "");
-        cachedAddress = sharedPrefs.getString("cachedAddress", "");
+        cachedAddress = sharedPrefs.getString("cachedAddress", "No Address Listed");
+
+        if(cachedAddress.isEmpty() || cachedAddress.equalsIgnoreCase("null"))
+            cachedAddress = "No Address Listed";
 
         if(cachedFullName.isEmpty())
         {
@@ -281,16 +298,12 @@ public class FragProfile extends Fragment
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
             {
-                //Validate
-
-                //Update server
+                //Update server validation done in update server method
+                updateServerUser("fullName");
 
                 //On Success
                     //Set view from start of text
                     etxtFullName.setSelection(0);
-                    //Update cached value
-                    cachedFullName = etxtFullName.getText().toString();
-                    sharedPrefs.edit().putString("cachedFullName", cachedFullName).commit();
                     //Lock field
                     doneWasUsed = true;
                     cbFullName.setChecked(false);
@@ -303,16 +316,12 @@ public class FragProfile extends Fragment
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
             {
-                //Validate
-
-                //Update server
+                //Update server validation done in update server method
+                updateServerUser("phone");
 
                 //On Success
                     //Set view from start of text
                     etxtPhone.setSelection(0);
-                    //Update cached value
-                    cachedPhone = etxtPhone.getText().toString();
-                    sharedPrefs.edit().putString("cachedPhone", cachedPhone).commit();
                     //Lock field
                     doneWasUsed = true;
                     cbPhone.setChecked(false);
@@ -325,9 +334,8 @@ public class FragProfile extends Fragment
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
             {
-                //Validate
-
-                //Update server
+                //Update server validation done in update server method
+//                updateServerUser("");
 
                 //On Success
                     //Set view from start of text
@@ -347,16 +355,12 @@ public class FragProfile extends Fragment
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
             {
-                //Validate
-
-                //Update server
+                //Update server validation done in update server method
+                updateServerUser("password");
 
                 //On Success
                     //Set view from start of text
                     etxtPassword.setSelection(0);
-                    //Update cached value
-                    cachedPassword = etxtPassword.getText().toString();
-                    sharedPrefs.edit().putString("cachedPassword", cachedPassword).commit();
                     //Lock field
                     doneWasUsed = true;
                     cbPassword.setChecked(false);
@@ -369,16 +373,12 @@ public class FragProfile extends Fragment
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
             {
-                //Validate
-
-                //Update server
+                //Update server validation done in update server method
+                updateServerUser("address");
 
                 //On Success
                     //Set view from start of text
                     etxtAddress.setSelection(0);
-                    //Updated cached value
-                    cachedAddress = etxtAddress.getText().toString();
-                    sharedPrefs.edit().putString("cachedAddress", cachedAddress).commit();
                     //Lock field
                     doneWasUsed = true;
                     cbAddress.setChecked(false);
@@ -406,5 +406,117 @@ public class FragProfile extends Fragment
 
         if(cbAddress.getId() != ignoreId)
             cbAddress.setChecked(false);
+    }
+
+    private void updateServerUser(String fieldToUpdate)
+    {
+        RequestParams params = new RequestParams();
+        params.put("email", cachedEmail);
+
+        //Check which field to update
+        switch(fieldToUpdate)
+        {
+            case "fullName":
+                params.put("fullName", etxtFullName.getText().toString().trim());
+                break;
+
+            case "phone":
+                //Validate more than 10 digits
+                String newPhone = etxtPhone.getText().toString();
+                if(newPhone.length() < 10)
+                    etxtPhone.setError("Invalid phone number");
+                else
+                    params.put("phone", newPhone);
+                break;
+
+            case "password":
+                //Validate password
+                String newPassword = etxtPassword.getText().toString();
+                if(newPassword.length() < 6)
+                {
+                    etxtPassword.setError("Password must be at least 6 characters");
+                }
+                else
+                {
+                    //Hash password with server secret
+                    HashHelper hashHlp = HashHelper.getInstance();
+                    String secretKey = sharedPrefs.getString("SERVER_SECRET_KEY", null);
+                    try
+                    {
+                        String newPasswordHash = hashHlp.hmacSha1(newPassword, secretKey);
+                        params.put("password", newPasswordHash);
+                    } catch(UnsupportedEncodingException e)
+                    {
+                        e.printStackTrace();
+                    } catch(NoSuchAlgorithmException e)
+                    {
+                        e.printStackTrace();
+                    } catch(InvalidKeyException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+                break;
+
+            case "address":
+                params.put("address", etxtAddress.getText().toString().trim());
+                break;
+        }
+
+        //Get endpoint
+        final String SERVER_ADDRESS = sharedPrefs.getString("SERVER_ADDRESS", null);
+        final String SERVER_API_UPDATE_USER = sharedPrefs.getString("SERVER_API_UPDATE_USER", null);
+
+        //Display loading feedback
+        pbProgressCircle.setVisibility(View.VISIBLE);
+
+        //Make update post call
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setUserAgent("android");
+        client.post(activity, SERVER_ADDRESS + SERVER_API_UPDATE_USER, params, new AsyncHttpResponseHandler()
+        {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+            {
+                //Hide progress circle
+                pbProgressCircle.setVisibility(View.GONE);
+                recacheData();
+                Toast.makeText(activity, "Updated successfully", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+            {
+                pbProgressCircle.setVisibility(View.GONE);
+
+                //Check errors
+                if(statusCode == 400)
+                {
+                    String responseJson = new String(responseBody);
+                    Toast.makeText(activity, responseJson, Toast.LENGTH_LONG).show();
+                }
+                else if(statusCode == 0)
+                {
+                    pbProgressCircle.setVisibility(View.GONE);
+                    Toast.makeText(activity, "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void recacheData()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        cachedFullName = etxtFullName.getText().toString().trim();
+        cachedPhone = etxtPhone.getText().toString();
+        cachedPassword = etxtPassword.getText().toString();
+        cachedAddress = etxtAddress.getText().toString().trim();
+
+        sharedPrefs.edit().putString("cachedFullName", cachedFullName)
+                .putString("cachedPhone", cachedPhone)
+                .putString("cachedPassword", cachedPassword)
+                .putString("cachedAddress", cachedAddress).commit();
     }
 }

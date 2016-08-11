@@ -33,4 +33,7 @@
     <color name="FPBtnBg">#F5FAFA</color>
     <color name="FPBtnBgPressed">#D4DADA</color>
 
+    <!--Diag Fragment Announcments-->
+    <color name="DFABgBlue">#007078</color>
+
 </resources>

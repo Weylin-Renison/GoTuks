@@ -16,8 +16,8 @@ android {
             applicationId "com.gometro.gometroliveup"
             minSdkVersion 15
             targetSdkVersion 22
-            versionCode 2
-            versionName "1.0.1"
+            versionCode 4
+            versionName "1.1.1"
             signingConfig signingConfigs.config
         }
         buildTypes {
@@ -43,6 +43,8 @@ android {
         compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
         compile 'com.loopj.android:android-async-http:1.4.9'
         compile 'com.google.android.gms:play-services-ads:8.3.0'
+        compile 'com.google.android.gms:play-services-location:8.3.0'
+        compile 'com.google.maps.android:android-maps-utils:0.4+'
         compile('com.mapbox.mapboxsdk:mapbox-android-sdk:0.7.4@aar') {
             transitive = true
         }

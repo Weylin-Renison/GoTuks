@@ -11,10 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,11 +24,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.disklrucache.Util;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.SyncHttpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,9 +34,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -199,7 +192,8 @@ public class FragSignin extends Fragment implements InterfaceSignin
                         String cryptoPassword = null;
                         try
                         {
-                            cryptoPassword = hmacSha1(password, SERVER_SECRET_KEY);
+                            HashHelper hashHlp = HashHelper.getInstance();
+                            cryptoPassword = hashHlp.hmacSha1(password, SERVER_SECRET_KEY);
                         } catch(UnsupportedEncodingException e)
                         {
                             e.printStackTrace();
@@ -226,7 +220,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
                             {
-                                cacheData();
+                                cacheData(responseBody);
                                 activity.navMainActivity();
 
                                 pgProgessCircle.setVisibility(View.GONE);
@@ -314,7 +308,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
                                 }
                                 else if(statusCode == 0)
                                 {
-                                    Toast.makeText(activity, "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
+                                   Toast.makeText(activity, "Please check your internet connection and try again", Toast.LENGTH_LONG).show();
                                 }
 
                                 pgProgessCircle.setVisibility(View.GONE);
@@ -360,7 +354,7 @@ public class FragSignin extends Fragment implements InterfaceSignin
         }
     }
 
-    private void cacheData()
+    private void cacheData(byte[] responseBody)
     {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
 
@@ -370,6 +364,26 @@ public class FragSignin extends Fragment implements InterfaceSignin
             sharedPrefs.edit().putString("cachedPassword", password).putBoolean("staySignedIn", true).commit();
         else
             sharedPrefs.edit().putBoolean("staySignedIn", false).commit();
+
+        //Check response body for extra cache values
+        String jsonStringUser = new String(responseBody);
+
+        try
+        {
+            JSONObject jsonUser = new JSONObject(jsonStringUser);
+
+            String fullName = jsonUser.getString("fullName");
+            String phone = jsonUser.getString("phone");
+            String address = jsonUser.getString("address");
+
+            sharedPrefs.edit().putString("cachedFullName", fullName)
+                    .putString("cachedPhone", phone)
+                    .putString("cachedAddress", address).commit();
+
+        } catch(JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private boolean validateFields(boolean forgotPasswordValidation)
@@ -395,31 +409,6 @@ public class FragSignin extends Fragment implements InterfaceSignin
 //        }
 
         return valid;
-    }
-
-    private static String hmacSha1(String value, String key) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException
-    {
-        String type = "HmacSHA1";
-        SecretKeySpec secret = new SecretKeySpec(key.getBytes(), type);
-        Mac mac = Mac.getInstance(type);
-        mac.init(secret);
-        byte[] bytes = mac.doFinal(value.getBytes());
-        return bytesToHex(bytes);
-    }
-
-    private final static char[] hexArray = "0123456789abcdef".toCharArray();
-
-    private static String bytesToHex(byte[] bytes)
-    {
-        char[] hexChars = new char[bytes.length * 2];
-        int v;
-        for(int j = 0; j < bytes.length; j++)
-        {
-            v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
     }
 
     public void animateForgotPassword(boolean forward)
